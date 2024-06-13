@@ -6,15 +6,16 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class Habit(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь', **NULLABLE)
     place = models.CharField(max_length=100, verbose_name='место')
     start_time = models.TimeField(verbose_name='время старта')
     action = models.CharField(max_length=300, verbose_name='действие')
     is_pleasant = models.BooleanField(verbose_name='приятная привычка')
-    is_connected = models.BooleanField(verbose_name='связанная привычка')
+    connected_habit = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name="связанная привычка", **NULLABLE)
+#    is_connected = models.BooleanField(verbose_name='связанная привычка')
     periodicity = models.SmallIntegerField(default=1, verbose_name='периодичность')
     prize = models.CharField(max_length=300, verbose_name='вознаграждение', **NULLABLE)
-    action_time = models.TimeField(verbose_name='время выполнения')
+    action_time = models.DurationField(default=None, verbose_name='время выполнения', **NULLABLE)
     is_public = models.BooleanField(verbose_name='публичная привычка')
 
     def __str__(self):

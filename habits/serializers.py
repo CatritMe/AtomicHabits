@@ -1,18 +1,16 @@
 from rest_framework import serializers
 from habits.models import Habit
+from habits.validators import PrizeValidator, ActionTimeValidator, ConnectedHabitsValidator, PleasantHabitsValidator, \
+    PeriodicityValidator
 
 
 class HabitSerializer(serializers.ModelSerializer):
-    pleasant = serializers.SerializerMethodField()
 
     class Meta:
         model = Habit
         fields = '__all__'
-
-    @staticmethod
-    def get_pleasant(instance):
-        if instance.is_connected:
-            return Habit.objects.filter(user=instance.user,
-                                        is_pleasant=True,
-                                        start_time__gte=instance.start_time,
-                                        start_time__lte='23:59').first().action
+        validators = [PrizeValidator(connect='connected_habit', prize='prize'),
+                      ActionTimeValidator(field='action_time'),
+                      ConnectedHabitsValidator(field='connected_habit'),
+                      PleasantHabitsValidator(is_pleasant='is_pleasant', connect='connected_habit', prize='prize'),
+                      PeriodicityValidator(field='periodicity')]
