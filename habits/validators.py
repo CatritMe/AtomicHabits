@@ -26,7 +26,7 @@ class ActionTimeValidator:
     def __call__(self, value):
         tmp_field = dict(value).get(self.field)
         if tmp_field > timedelta(seconds=120):
-            raise ValidationError('Время выполнения должно быть не больше 120 секунд')
+            raise ValidationError('Время выполнения должно быть не более 120 секунд')
 
 
 class ConnectedHabitsValidator:
