@@ -8,7 +8,7 @@ from habits.models import Habit
 
 
 def send_message(text, chat_id):
-    """Отправляет сообщение в ТГ об успешном создании привычки"""
+    """Отправляет сообщение в ТГ"""
     token = settings.TELEGRAM_API_KEY
     if not chat_id:
         chat_id = settings.TELEGRAM_CHAT_ID

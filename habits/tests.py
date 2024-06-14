@@ -5,19 +5,9 @@ from rest_framework.test import APITestCase, APIClient
 from habits.models import Habit
 from users.models import User
 
-"""
-{'ok': True,
-'result': {'message_id': 4, 
-            'from': {'id': 6936104865, 'is_bot': True, 'first_name': 'KateNewBot', 'username': 'Kate_new_first_bot'}, 
-            'chat': {'id': 1164494619, 'first_name': 'Екатерина', 'username': 'catritme', 'type': 'private'}, 
-            'date': 1718357315, 
-            'text': 'Вы создали новую привычку ходить пешком час в 20:00:00'
-            }
-}
-"""
-
 
 class HabitTestCase(APITestCase):
+    """Класс тестирования CRUD привычки"""
 
     def setUp(self):
         self.user = User.objects.create(email='admin@ad.com', password='admin')
@@ -36,6 +26,7 @@ class HabitTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_habit_retrieve(self):
+        """Просмотр"""
         url = reverse('habits:habits-detail', args=(self.habit.pk,))
         response = self.client.get(url)
         data = response.json()
@@ -47,6 +38,7 @@ class HabitTestCase(APITestCase):
         )
 
     def test_habit_create(self):
+        """Создание"""
         url = reverse('habits:habits-list')
         data = {
                 "place": "улица",
@@ -79,6 +71,7 @@ class HabitTestCase(APITestCase):
         )
 
     def test_habit_update(self):
+        """Редактирование"""
         url = reverse('habits:habits-detail', args=(self.habit.pk,))
         data = {
                 "place": "улица Сезам",
@@ -99,6 +92,7 @@ class HabitTestCase(APITestCase):
         )
 
     def test_habit_list(self):
+        """Просмотр списка"""
         url = reverse('habits:habits-list')
         response = self.client.get(url)
         self.assertEqual(
@@ -126,6 +120,7 @@ class HabitTestCase(APITestCase):
         )
 
     def test_habit_delete(self):
+        """Удаление"""
         url = reverse('habits:habits-detail', args=(self.habit.pk,))
         response = self.client.delete(url)
         self.assertEqual(

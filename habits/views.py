@@ -11,7 +11,9 @@ from users.permissions import IsOwner
 
 
 class HabitViewSet(viewsets.ModelViewSet):
+
     """Вьюсет для модели привычки по CRUD"""
+
     serializer_class = HabitSerializer
     permission_classes = (IsOwner, )
     pagination_class = HabitPaginator
@@ -39,7 +41,9 @@ class HabitViewSet(viewsets.ModelViewSet):
 
 
 class PublicHabitsListAPIView(ListAPIView):
+
     """Контроллер для списка публичных привычек"""
+
     queryset = Habit.objects.filter(is_public=True)
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated, )
