@@ -1,7 +1,3 @@
-"""
-1. celery -A config worker -P eventlet -l info
-2. celery -A config.celery beat -l info
-"""
 from datetime import datetime, timedelta, date
 
 import pytz
@@ -10,6 +6,12 @@ from celery import shared_task
 from config import settings
 from habits.models import Habit
 from habits.services import send_message
+
+"""
+Запуск на Windows в разных терминалах:
+1. celery -A config worker -P eventlet -l info
+2. celery -A config.celery beat -l info
+"""
 
 
 @shared_task
@@ -31,7 +33,7 @@ def reminder():
     """Напоминание выполнить привычку"""
     zone = pytz.timezone(settings.TIME_ZONE)
     now = datetime.now(zone).time()
-    delta = ((datetime.combine(date(1,1,1),now) + timedelta(minutes=10)).time())
+    delta = ((datetime.combine(date(1, 1, 1), now) + timedelta(minutes=10)).time())
     habits = Habit.objects.all()
     for hab in habits:
         if now <= hab.start_time <= delta:

@@ -1,6 +1,5 @@
 from django.db import models
 
-from config import settings
 from users.models import User
 
 NULLABLE = {'blank': True, 'null': True}
