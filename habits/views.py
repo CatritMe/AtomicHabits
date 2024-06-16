@@ -15,7 +15,6 @@ class HabitViewSet(viewsets.ModelViewSet):
     """Вьюсет для модели привычки по CRUD"""
 
     serializer_class = HabitSerializer
-    permission_classes = (IsOwner, )
     pagination_class = HabitPaginator
 
     def perform_create(self, serializer):
@@ -38,6 +37,13 @@ class HabitViewSet(viewsets.ModelViewSet):
         else:
             queryset = Habit.objects.filter(user=user)
         return queryset
+
+    def get_permissions(self):
+        if self.action in ['create', 'list']:
+            permission_classes = [IsAuthenticated | IsOwner]
+        else:
+            permission_classes = [IsOwner]
+        return [permission() for permission in permission_classes]
 
 
 class PublicHabitsListAPIView(ListAPIView):
