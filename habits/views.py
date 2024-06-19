@@ -40,7 +40,7 @@ class HabitViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['create', 'list']:
-            permission_classes = [IsAuthenticated | IsOwner]
+            permission_classes = [IsAuthenticated]
         else:
             permission_classes = [IsOwner]
         return [permission() for permission in permission_classes]
