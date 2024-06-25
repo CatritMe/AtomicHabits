@@ -12,3 +12,12 @@ AtomicHabits - это SPA веб-приложение, трекер полезн
 	4) Установите пакеты poetry install
 	5) Запустите сервер python manage.py runserver
 	6) Смотрите документацию к API swagger/ или redoc/ добавив это к базовому URL
+
+Для создания контейнера в Docker выполните в консоли следующие команды:
+
+docker network create docker_net
+
+docker run -d --network=docker_net --name=postgres_cont -p 5432:5432 -e POSTGRES_DB=drfdocker -e POST
+GRES_USER=postgres -e POSTGRES_PASSWORD=12345 postgres:latest
+
+docker-compose up -d --build
